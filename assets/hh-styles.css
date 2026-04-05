@@ -1,0 +1,132 @@
+/* ============================================================
+   HALO & HAVEN — Shared Brand Styles
+   Brand CI: April 2026
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300&family=Lora:ital@1&display=swap');
+
+/* ── Tokens ─────────────────────────────────────────────── */
+:root {
+  --hh-parchment:  #F7F2EC;
+  --hh-linen:      #EFE8DF;
+  --hh-dusk-rose:  #D9B5A0;
+  --hh-deep-rose:  #C49A84;
+  --hh-warm-clay:  #4A3828;
+  --hh-near-black: #2C2018;
+
+  --hh-font-display: 'Cormorant Garamond', Georgia, serif;
+  --hh-font-body:    'Jost', sans-serif;
+  --hh-font-accent:  'Lora', Georgia, serif;
+
+  --hh-letter-wide: 0.18em;
+  --hh-letter-wider: 0.25em;
+  --hh-transition: all 0.35s ease;
+}
+
+/* ── Global resets scoped to HH sections ────────────────── */
+.hh-section *,
+.hh-section *::before,
+.hh-section *::after {
+  box-sizing: border-box;
+}
+
+.hh-section {
+  font-family: var(--hh-font-body);
+  color: var(--hh-warm-clay);
+}
+
+/* ── Typography helpers ──────────────────────────────────── */
+.hh-label {
+  font-family: var(--hh-font-body);
+  font-weight: 300;
+  font-size: 0.68rem;
+  letter-spacing: var(--hh-letter-wider);
+  text-transform: uppercase;
+  color: var(--hh-dusk-rose);
+}
+
+.hh-display {
+  font-family: var(--hh-font-display);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.hh-body {
+  font-family: var(--hh-font-body);
+  font-weight: 200;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.hh-accent {
+  font-family: var(--hh-font-accent);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ── CTA Button ─────────────────────────────────────────── */
+.hh-btn {
+  display: inline-block;
+  font-family: var(--hh-font-body);
+  font-weight: 300;
+  font-size: 0.72rem;
+  letter-spacing: var(--hh-letter-wide);
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 38px;
+  border: 1px solid var(--hh-deep-rose);
+  color: var(--hh-deep-rose);
+  background: transparent;
+  cursor: pointer;
+  transition: var(--hh-transition);
+}
+
+.hh-btn:hover {
+  background: var(--hh-deep-rose);
+  color: var(--hh-parchment);
+}
+
+.hh-btn--filled {
+  background: var(--hh-deep-rose);
+  color: var(--hh-parchment);
+}
+
+.hh-btn--filled:hover {
+  background: var(--hh-warm-clay);
+  border-color: var(--hh-warm-clay);
+  color: var(--hh-parchment);
+}
+
+.hh-btn--light {
+  border-color: var(--hh-dusk-rose);
+  color: var(--hh-parchment);
+}
+
+.hh-btn--light:hover {
+  background: var(--hh-dusk-rose);
+  color: var(--hh-near-black);
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+.hh-divider {
+  width: 48px;
+  height: 1px;
+  background: var(--hh-dusk-rose);
+  margin: 0 auto;
+}
+
+.hh-divider--left {
+  margin: 0;
+}
+
+/* ── Utility ─────────────────────────────────────────────── */
+.hh-text-center { text-align: center; }
+.hh-mt-sm  { margin-top: 16px; }
+.hh-mt-md  { margin-top: 28px; }
+.hh-mt-lg  { margin-top: 48px; }
+.hh-mb-sm  { margin-bottom: 16px; }
+.hh-mb-md  { margin-bottom: 28px; }
+
+@media (max-width: 768px) {
+  .hh-hide-mobile { display: none; }
+}

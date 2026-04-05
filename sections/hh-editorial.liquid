@@ -1,0 +1,258 @@
+{{ 'hh-styles.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="hh-section hh-editorial {% if section.settings.flip %}hh-editorial--flip{% endif %}"
+  style="background: {{ section.settings.bg_color }};"
+>
+  <div class="hh-editorial__inner">
+
+    <!-- Image side -->
+    <div class="hh-editorial__media">
+      {% if section.settings.image != blank %}
+        <div class="hh-editorial__img-wrap">
+          <img
+            src="{{ section.settings.image | img_url: '900x' }}"
+            alt="{{ section.settings.image.alt | escape }}"
+            loading="lazy"
+            class="hh-editorial__img"
+          >
+          {% if section.settings.img_caption != blank %}
+            <p class="hh-label hh-editorial__caption">{{ section.settings.img_caption }}</p>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="hh-editorial__img-placeholder">
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'hh-editorial__placeholder-svg' }}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Text side -->
+    <div class="hh-editorial__content">
+
+      {% if section.settings.label != blank %}
+        <p class="hh-label hh-editorial__label">{{ section.settings.label }}</p>
+        <div class="hh-divider hh-divider--left hh-editorial__divider"></div>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="hh-display hh-editorial__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.body != blank %}
+        <div class="hh-body hh-editorial__body">{{ section.settings.body }}</div>
+      {% endif %}
+
+      {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+        <a href="{{ section.settings.cta_url }}" class="hh-btn hh-editorial__cta">
+          {{ section.settings.cta_label }}
+        </a>
+      {% endif %}
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .hh-editorial {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .hh-editorial__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 620px;
+  }
+
+  .hh-editorial--flip .hh-editorial__inner {
+    direction: rtl;
+  }
+
+  .hh-editorial--flip .hh-editorial__inner > * {
+    direction: ltr;
+  }
+
+  /* Media */
+  .hh-editorial__media {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hh-editorial__img-wrap {
+    height: 100%;
+    position: relative;
+  }
+
+  .hh-editorial__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.8s ease;
+  }
+
+  .hh-editorial__media:hover .hh-editorial__img {
+    transform: scale(1.03);
+  }
+
+  .hh-editorial__caption {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: var(--hh-parchment);
+    opacity: 0.7;
+  }
+
+  .hh-editorial__img-placeholder {
+    height: 100%;
+    background: var(--hh-linen);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hh-editorial__placeholder-svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Content */
+  .hh-editorial__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 72px 64px;
+  }
+
+  .hh-editorial__label {
+    margin-bottom: 20px;
+  }
+
+  .hh-editorial__divider {
+    margin-bottom: 32px;
+  }
+
+  .hh-editorial__heading {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    color: var(--hh-warm-clay);
+    margin: 0 0 28px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.15;
+  }
+
+  .hh-editorial__body {
+    color: var(--hh-warm-clay);
+    opacity: 0.9;
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+
+  .hh-editorial__body p {
+    margin: 0 0 16px;
+  }
+
+  .hh-editorial__cta {
+    align-self: flex-start;
+  }
+
+  @media (max-width: 900px) {
+    .hh-editorial__inner {
+      grid-template-columns: 1fr;
+      direction: ltr !important;
+    }
+
+    .hh-editorial__media {
+      height: 380px;
+    }
+
+    .hh-editorial__img {
+      height: 380px;
+    }
+
+    .hh-editorial__content {
+      padding: 48px 28px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "HH — Editorial",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Our Story"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Born in the quiet.\nBuilt on faith."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body text",
+      "default": "<p>Halo & Haven wasn't born in a boardroom. It was born in the dark — in grief, in loss, in a season where everything was stripped away and the only thing left was God.</p><p>This brand is my testimony. And now it's yours.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Read our story"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "img_caption",
+      "label": "Image caption (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "flip",
+      "label": "Flip layout (image on right)",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#F7F2EC"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH — Editorial"
+    }
+  ]
+}
+{% endschema %}

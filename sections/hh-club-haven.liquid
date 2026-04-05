@@ -1,0 +1,269 @@
+{{ 'hh-styles.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="hh-section hh-club"
+  style="background: {{ section.settings.bg_color }};"
+>
+  <div class="hh-club__inner">
+
+    {% if section.settings.label != blank %}
+      <p class="hh-label hh-club__label">{{ section.settings.label }}</p>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="hh-display hh-club__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    <div class="hh-divider hh-club__divider"></div>
+
+    {% if section.settings.body != blank %}
+      <p class="hh-body hh-club__body">{{ section.settings.body }}</p>
+    {% endif %}
+
+    {% if section.settings.perks != blank %}
+      <ul class="hh-club__perks">
+        {% assign perk_list = section.settings.perks | split: '|' %}
+        {% for perk in perk_list %}
+          <li class="hh-label hh-club__perk">{{ perk | strip }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% form 'customer', class: 'hh-club__form' %}
+      <input type="hidden" name="contact[tags]" value="newsletter,club-haven">
+      {% if form.posted_successfully? %}
+        <p class="hh-club__success hh-body">
+          {{ section.settings.success_message }}
+        </p>
+      {% else %}
+        <div class="hh-club__fields">
+          <input
+            type="email"
+            name="contact[email]"
+            class="hh-club__input"
+            placeholder="{{ section.settings.placeholder }}"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="hh-btn hh-btn--filled hh-club__submit">
+            {{ section.settings.btn_label }}
+          </button>
+        </div>
+        {% if form.errors %}
+          <p class="hh-club__error hh-body">{{ form.errors | default_errors }}</p>
+        {% endif %}
+      {% endif %}
+    {% endform %}
+
+    {% if section.settings.footnote != blank %}
+      <p class="hh-label hh-club__footnote">{{ section.settings.footnote }}</p>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+  .hh-club {
+    padding: 96px 24px;
+    text-align: center;
+  }
+
+  .hh-club__inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .hh-club__label {
+    margin-bottom: 20px;
+  }
+
+  .hh-club__heading {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--hh-warm-clay);
+    font-style: italic;
+    font-weight: 300;
+    margin: 0 0 28px;
+    line-height: 1.15;
+  }
+
+  .hh-club__divider {
+    margin-bottom: 28px;
+  }
+
+  .hh-club__body {
+    color: var(--hh-warm-clay);
+    opacity: 0.85;
+    margin-bottom: 36px;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hh-club__perks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 32px;
+  }
+
+  .hh-club__perk {
+    color: var(--hh-warm-clay);
+    opacity: 0.7;
+    position: relative;
+  }
+
+  .hh-club__perk::before {
+    content: '✦';
+    margin-right: 8px;
+    color: var(--hh-dusk-rose);
+    font-size: 0.6rem;
+    vertical-align: middle;
+  }
+
+  .hh-club__form {
+    width: 100%;
+  }
+
+  .hh-club__fields {
+    display: flex;
+    gap: 0;
+    max-width: 480px;
+    margin: 0 auto 16px;
+    border: 1px solid var(--hh-dusk-rose);
+  }
+
+  .hh-club__input {
+    flex: 1;
+    padding: 14px 20px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: var(--hh-font-body);
+    font-weight: 200;
+    font-size: 0.88rem;
+    color: var(--hh-warm-clay);
+    letter-spacing: 0.03em;
+  }
+
+  .hh-club__input::placeholder {
+    color: var(--hh-warm-clay);
+    opacity: 0.45;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+
+  .hh-club__submit {
+    border: none;
+    border-left: 1px solid var(--hh-dusk-rose);
+    flex-shrink: 0;
+    padding: 14px 28px;
+  }
+
+  .hh-club__success {
+    color: var(--hh-warm-clay);
+    font-style: italic;
+    padding: 20px;
+  }
+
+  .hh-club__error {
+    color: #8b3a3a;
+    font-size: 0.8rem;
+    margin-top: 8px;
+  }
+
+  .hh-club__footnote {
+    margin-top: 20px;
+    opacity: 0.5;
+    color: var(--hh-warm-clay);
+  }
+
+  @media (max-width: 540px) {
+    .hh-club__fields {
+      flex-direction: column;
+      border: none;
+    }
+
+    .hh-club__input {
+      border: 1px solid var(--hh-dusk-rose);
+      margin-bottom: 8px;
+    }
+
+    .hh-club__submit {
+      border: 1px solid var(--hh-deep-rose);
+      border-left: 1px solid var(--hh-deep-rose);
+      width: 100%;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "HH — Club Haven",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Join the inner circle"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Welcome to Club Haven."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Exclusive offers, early access to new collections, and letters written just for you. This is your haven — and it starts here."
+    },
+    {
+      "type": "textarea",
+      "id": "perks",
+      "label": "Member perks (separate with |)",
+      "default": "Early access | Exclusive offers | Soul letters | Members pricing"
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Email placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "btn_label",
+      "label": "Button label",
+      "default": "Join"
+    },
+    {
+      "type": "textarea",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "You're in. Welcome to your haven — we'll be in touch soon."
+    },
+    {
+      "type": "text",
+      "id": "footnote",
+      "label": "Footnote / privacy note",
+      "default": "No spam. Ever. Just light."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#F7F2EC"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH — Club Haven"
+    }
+  ]
+}
+{% endschema %}

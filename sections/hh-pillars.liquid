@@ -1,0 +1,192 @@
+{{ 'hh-styles.css' | asset_url | stylesheet_tag }}
+
+<section class="hh-section hh-pillars">
+  <div class="hh-pillars__inner">
+
+    {% if section.settings.label != blank %}
+      <p class="hh-label hh-pillars__top-label">{{ section.settings.label }}</p>
+    {% endif %}
+
+    <div class="hh-pillars__grid">
+      {% for block in section.blocks %}
+        <div class="hh-pillars__item" {{ block.shopify_attributes }}>
+
+          {% if block.settings.ornament != blank %}
+            <div class="hh-pillars__ornament" aria-hidden="true">
+              {{ block.settings.ornament }}
+            </div>
+          {% endif %}
+
+          {% if block.settings.title != blank %}
+            <h3 class="hh-display hh-pillars__title">{{ block.settings.title }}</h3>
+          {% endif %}
+
+          <div class="hh-divider hh-pillars__divider"></div>
+
+          {% if block.settings.text != blank %}
+            <p class="hh-body hh-pillars__text">{{ block.settings.text }}</p>
+          {% endif %}
+
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .hh-pillars {
+    background: var(--hh-parchment);
+    padding: 80px 24px;
+  }
+
+  .hh-pillars__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hh-pillars__top-label {
+    text-align: center;
+    margin-bottom: 56px;
+  }
+
+  .hh-pillars__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  .hh-pillars__item {
+    padding: 48px 40px;
+    text-align: center;
+    border-right: 1px solid var(--hh-dusk-rose);
+    transition: background 0.3s ease;
+  }
+
+  .hh-pillars__item:last-child {
+    border-right: none;
+  }
+
+  .hh-pillars__item:hover {
+    background: var(--hh-linen);
+  }
+
+  .hh-pillars__ornament {
+    font-family: var(--hh-font-accent);
+    font-style: italic;
+    font-size: 1.8rem;
+    color: var(--hh-dusk-rose);
+    margin-bottom: 20px;
+    opacity: 0.8;
+  }
+
+  .hh-pillars__title {
+    font-size: 1.45rem;
+    color: var(--hh-warm-clay);
+    margin: 0 0 20px;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .hh-pillars__divider {
+    margin-bottom: 20px;
+  }
+
+  .hh-pillars__text {
+    font-size: 0.88rem;
+    color: var(--hh-warm-clay);
+    opacity: 0.85;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .hh-pillars__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hh-pillars__item {
+      border-right: none;
+      border-bottom: 1px solid var(--hh-dusk-rose);
+      padding: 40px 24px;
+    }
+
+    .hh-pillars__item:last-child {
+      border-bottom: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "HH — Brand Pillars",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "What we stand for"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pillar",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "ornament",
+          "label": "Symbol / ornament character",
+          "info": "e.g. ✦ ☽ ✧ or leave blank",
+          "default": "✦"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Light"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "There is a light within every woman — sacred, placed by God Himself."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH — Brand Pillars",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "ornament": "✦",
+            "title": "Light",
+            "text": "There is a light within every woman — sacred, placed by God Himself. You were never meant to dim it."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "ornament": "☽",
+            "title": "Haven",
+            "text": "A sanctuary of self-love, stillness, and divine strength. A place to rest, reflect, and become."
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "ornament": "✧",
+            "title": "Intention",
+            "text": "Handcrafted in South Africa. Every stitch, every page — made with faith and deliberate care."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

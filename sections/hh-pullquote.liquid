@@ -1,0 +1,126 @@
+{{ 'hh-styles.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="hh-section hh-pullquote"
+  style="background: {{ section.settings.bg_color }};"
+>
+  <div class="hh-pullquote__inner">
+
+    <div class="hh-pullquote__mark" aria-hidden="true">&ldquo;</div>
+
+    {% if section.settings.quote != blank %}
+      <blockquote class="hh-accent hh-pullquote__text">
+        {{ section.settings.quote }}
+      </blockquote>
+    {% endif %}
+
+    <div class="hh-divider hh-pullquote__divider"></div>
+
+    {% if section.settings.attribution != blank %}
+      <p class="hh-label hh-pullquote__attribution">{{ section.settings.attribution }}</p>
+    {% endif %}
+
+  </div>
+</section>
+
+<style>
+  .hh-pullquote {
+    padding: 100px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hh-pullquote::before,
+  .hh-pullquote::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 40px;
+    background: var(--hh-dusk-rose);
+    opacity: 0.4;
+  }
+
+  .hh-pullquote::before { top: 0; }
+  .hh-pullquote::after  { bottom: 0; }
+
+  .hh-pullquote__inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .hh-pullquote__mark {
+    font-family: var(--hh-font-display);
+    font-size: 8rem;
+    line-height: 0.6;
+    color: var(--hh-dusk-rose);
+    opacity: 0.35;
+    margin-bottom: 16px;
+    display: block;
+    font-weight: 300;
+  }
+
+  .hh-pullquote__text {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    line-height: 1.5;
+    color: var(--hh-warm-clay);
+    margin: 0 0 36px;
+    font-weight: 400;
+  }
+
+  .hh-pullquote[data-dark="true"] .hh-pullquote__text {
+    color: var(--hh-parchment);
+  }
+
+  .hh-pullquote__divider {
+    margin-bottom: 24px;
+  }
+
+  .hh-pullquote__attribution {
+    color: var(--hh-dusk-rose);
+  }
+
+  @media (max-width: 768px) {
+    .hh-pullquote {
+      padding: 72px 28px;
+    }
+
+    .hh-pullquote__mark {
+      font-size: 5rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "HH — Pull Quote",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "Quote text",
+      "default": "When a woman walks with God, she becomes unstoppable. She becomes light in motion."
+    },
+    {
+      "type": "text",
+      "id": "attribution",
+      "label": "Attribution (optional)",
+      "default": "Halo & Haven"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background colour",
+      "default": "#EFE8DF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH — Pull Quote"
+    }
+  ]
+}
+{% endschema %}

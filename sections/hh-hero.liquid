@@ -1,0 +1,289 @@
+{{ 'hh-styles.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="hh-section hh-hero"
+  style="
+    background-color: {{ section.settings.bg_color }};
+    min-height: {{ section.settings.min_height }}vh;
+    {% if section.settings.bg_image != blank %}
+      background-image: linear-gradient(
+        to bottom,
+        rgba(44,32,24,{{ section.settings.overlay_opacity }}) 0%,
+        rgba(44,32,24,{{ section.settings.overlay_opacity }}) 100%
+      ), url('{{ section.settings.bg_image | img_url: '2000x' }}');
+      background-size: cover;
+      background-position: {{ section.settings.bg_position }};
+    {% endif %}
+  "
+>
+  <div class="hh-hero__inner">
+
+    {% if section.settings.eyebrow != blank %}
+      <p class="hh-label hh-hero__eyebrow">
+        {{ section.settings.eyebrow }}
+      </p>
+      <div class="hh-hero__rule"></div>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h1 class="hh-display hh-hero__heading">
+        {{ section.settings.heading }}
+      </h1>
+    {% endif %}
+
+    {% if section.settings.subheading != blank %}
+      <p class="hh-body hh-hero__sub">
+        {{ section.settings.subheading }}
+      </p>
+    {% endif %}
+
+    <div class="hh-hero__actions">
+      {% if section.settings.cta_label != blank and section.settings.cta_url != blank %}
+        <a href="{{ section.settings.cta_url }}" class="hh-btn hh-btn--light">
+          {{ section.settings.cta_label }}
+        </a>
+      {% endif %}
+      {% if section.settings.cta2_label != blank and section.settings.cta2_url != blank %}
+        <a href="{{ section.settings.cta2_url }}" class="hh-btn hh-btn--ghost-light hh-hero__cta2">
+          {{ section.settings.cta2_label }}
+        </a>
+      {% endif %}
+    </div>
+
+  </div>
+
+  {% if section.settings.show_scroll_hint %}
+    <div class="hh-hero__scroll" aria-hidden="true">
+      <span class="hh-label">Scroll</span>
+      <div class="hh-hero__scroll-line"></div>
+    </div>
+  {% endif %}
+</section>
+
+<style>
+  .hh-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    overflow: hidden;
+  }
+
+  .hh-hero__inner {
+    max-width: 720px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hh-hero__eyebrow {
+    color: var(--hh-dusk-rose);
+    margin: 0 0 20px;
+  }
+
+  .hh-hero__rule {
+    width: 40px;
+    height: 1px;
+    background: var(--hh-dusk-rose);
+    margin: 0 auto 32px;
+    opacity: 0.7;
+  }
+
+  .hh-hero__heading {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    color: var(--hh-parchment);
+    margin: 0 0 28px;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+
+  .hh-hero__sub {
+    color: var(--hh-dusk-rose);
+    font-size: 0.92rem;
+    max-width: 480px;
+    margin: 0 auto 44px;
+    line-height: 1.9;
+    font-weight: 200;
+  }
+
+  .hh-hero__actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hh-btn--ghost-light {
+    display: inline-block;
+    font-family: var(--hh-font-body);
+    font-weight: 300;
+    font-size: 0.72rem;
+    letter-spacing: var(--hh-letter-wide);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 38px;
+    border: 1px solid transparent;
+    color: var(--hh-dusk-rose);
+    background: transparent;
+    cursor: pointer;
+    transition: var(--hh-transition);
+  }
+
+  .hh-btn--ghost-light:hover {
+    border-color: var(--hh-dusk-rose);
+    color: var(--hh-parchment);
+  }
+
+  .hh-hero__scroll {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    z-index: 2;
+  }
+
+  .hh-hero__scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--hh-dusk-rose);
+    opacity: 0.5;
+    animation: hh-scroll-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes hh-scroll-pulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50%       { opacity: 0.8; transform: scaleY(1.1); }
+  }
+
+  @media (max-width: 768px) {
+    .hh-hero {
+      padding: 100px 24px 80px;
+    }
+
+    .hh-hero__heading {
+      font-size: clamp(2.4rem, 10vw, 3.5rem);
+    }
+
+    .hh-hero__actions {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "HH — Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow label",
+      "default": "Handcrafted in South Africa · Made with Faith"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "She moves through the world as her own halo."
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Leather journals for the woman who is done dimming her light. Rooted in faith. Made with intention."
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Primary CTA label",
+      "default": "Shop Journals"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Primary CTA link"
+    },
+    {
+      "type": "text",
+      "id": "cta2_label",
+      "label": "Secondary CTA label",
+      "default": "Our Story"
+    },
+    {
+      "type": "url",
+      "id": "cta2_url",
+      "label": "Secondary CTA link"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_hint",
+      "label": "Show scroll indicator",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+      "type": "select",
+      "id": "bg_position",
+      "label": "Image focal point",
+      "options": [
+        { "value": "center center", "label": "Centre" },
+        { "value": "top center",    "label": "Top" },
+        { "value": "bottom center", "label": "Bottom" },
+        { "value": "center left",   "label": "Left" },
+        { "value": "center right",  "label": "Right" }
+      ],
+      "default": "center center"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay darkness",
+      "min": 0.2,
+      "max": 0.95,
+      "step": 0.05,
+      "default": 0.65
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Fallback background colour",
+      "default": "#2C2018"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height (vh)",
+      "min": 60,
+      "max": 100,
+      "step": 5,
+      "default": 95
+    }
+  ],
+  "presets": [
+    {
+      "name": "HH — Hero"
+    }
+  ]
+}
+{% endschema %}
